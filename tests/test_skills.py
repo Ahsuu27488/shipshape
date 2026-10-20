@@ -117,6 +117,17 @@ class DirectoryLimits(unittest.TestCase):
                     with self.subTest(script=script):
                         self.assertTrue((ROOT / script).exists())
 
+    def test_hooks_and_scripts_are_executable_in_git(self):
+        import subprocess
+        out = subprocess.run(["git", "ls-files", "-s", "--", ".githooks", "scripts", "tools", "compat",
+                              "skills/shipshape-adopt/assets/githooks", "skills/shipshape-adopt/assets/shipshape"],
+                             cwd=ROOT, capture_output=True, text=True).stdout
+        for line in out.splitlines():
+            mode, _, _, path = line.split(None, 3)
+            if path.endswith((".sh",)) or "/githooks/" in path or path.startswith(".githooks/"):
+                with self.subTest(path=path):
+                    self.assertEqual(mode, "100755", "git skips non-executable hooks on Linux/macOS")
+
     def test_shell_scripts_have_lf_endings(self):
         for f in list(ROOT.glob("scripts/*.sh")) + list(ROOT.glob("tools/*.sh")) \
                 + list((SKILLS / "shipshape-adopt" / "assets" / "githooks").iterdir()) \

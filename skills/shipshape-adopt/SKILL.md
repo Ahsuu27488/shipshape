@@ -71,7 +71,9 @@ and `CHANGELOG.md` from the real code, using `assets/docs/*` as the templates. A
   git does not copy hook settings.
 - Append `assets/gitattributes` to `.gitattributes` (create it if missing): hook scripts must keep LF line
   endings, or `sh` fails on Windows checkouts.
-- Make the scripts executable (`git update-index --chmod=+x .githooks/* .shipshape/*.sh`).
+- Make the scripts executable, both on disk and in git (git skips a hook that isn't executable, silently, on
+  Linux and macOS): `chmod +x .githooks/* .shipshape/*.sh` and `git update-index --chmod=+x .githooks/*
+  .shipshape/*.sh` after staging them.
 
 ## 6. CI and PR template
 

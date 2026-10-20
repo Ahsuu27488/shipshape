@@ -2,12 +2,12 @@
 
 > Current truth only. History in CHANGELOG.md, reasons in DECISIONS.md.
 
-**Last updated:** 2026-10-20 · **Code at:** branch `feat/v0.1-release-gate` (not pushed, not published)
+**Last updated:** 2026-10-20 · **Code at:** github.com/Ahsuu27488/shipshape `main` (public)
 **In one line:** v0.1 is built and has passed its release gate: Claude Code and Antigravity pass all 6 compat cases.
 
 ## What works (verified)
 
-- 60 unit and integration tests pass on Windows (`python -m unittest discover -s tests`). They run the real git
+- 61 unit and integration tests pass on Windows, Ubuntu and macOS (CI) (`python -m unittest discover -s tests`). They run the real git
   hooks, the session report, the Claude hooks, the unattended wrapper (with a stand-in agent), and the skill-spec and
   limits checks.
 - `claude plugin validate --strict` passes for the marketplace and the plugin.
@@ -31,10 +31,9 @@
 
 ## Next
 
-1. Ahsan reviews and merges `feat/v0.1-release-gate` (no remote yet).
-2. With Ahsan's go-ahead: create `github.com/Ahsuu27488/shipshape` (public), push, and set the social preview
-   (`assets/social-preview.png`).
-3. Ahsan's own install: the plugin at user scope with `auto_setup=auto`.
+1. Set the GitHub social preview (`assets/social-preview.png`; Settings → Social preview, by hand or in Chrome).
+2. Submit to the Anthropic directory (claude.ai/directory/manage).
+3. Done: Ahsan's own install, the plugin at user scope with `auto_setup=auto`, `teaching=working`, `git_guard=ask`.
 4. Before the Anthropic directory submission: run the compat cases on Codex and Cursor, run `evals/` with a working
    login, and validate in the directory portal.
 5. One real overnight `shipshape-run` on a small repo.
