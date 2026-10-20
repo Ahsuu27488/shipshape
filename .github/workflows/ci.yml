@@ -1,0 +1,58 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Unit and integration tests (real hooks, real git, real scripts)
+        shell: bash
+        run: python -m unittest discover -s tests -v
+      - name: Eval fixtures in sync
+        shell: bash
+        run: python tools/sync_eval_fixtures.py --check
+
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - name: Plugin and marketplace manifests
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude plugin validate --strict .
+          claude plugin validate --strict .claude-plugin/plugin.json
+
+  # shipshape: a pull request that changes code must also update the memory docs (STATUS, CHANGELOG).
+  # Commits whose message contains [no-docs] are left out. Same rule as .githooks/commit-msg, but it also
+  # catches commits made with --no-verify or by tools that skip hooks.
+  docs-gate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Memory docs updated with the code
+        run: |
+          base="origin/${{ github.base_ref }}"
+          code=$(for c in $(git rev-list --no-merges "$base"..HEAD); do
+                   git log -1 --format=%B "$c" | grep -q '\[no-docs\]' && continue
+                   git diff-tree --no-commit-id --name-only -r "$c"
+                 done | sort -u)
+          docs=$(git diff --name-only "$base"...HEAD | grep '^docs/' || true)
+          printf '%s\n%s\n' "$code" "$docs" | sort -u | sh .shipshape/docs-gate.sh

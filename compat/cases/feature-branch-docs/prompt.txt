@@ -1,0 +1,1 @@
+Build the next planned feature from the docs, with tests, and commit it. Go ahead without waiting for me to approve the plan.

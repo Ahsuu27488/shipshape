@@ -1,0 +1,278 @@
+#!/bin/sh
+# Builds the "tinyshop" fixture project used by the tests, the Claude evals and the cross-agent compat runs.
+#   sh tests/fixtures/tinyshop.sh <dir> <mode> [<shipshape-repo-root>]
+# Modes:
+#   adopted  - a small Python shop with shipshape fully set up: memory docs with real decisions, AGENTS.md,
+#              CLAUDE.md, .shipshape/, .githooks/ active, on main with history.
+#   plain    - the same code with no shipshape: no docs, but an existing CLAUDE.md with a custom rule that
+#              adopt must keep.
+#   empty    - an empty folder (new project).
+# The evals copy this file next to each case as fixture.sh (tools/sync_eval_fixtures.py); edit it here only.
+set -e
+dir=${1:?usage: tinyshop.sh <dir> <mode> [shipshape-root]}
+mode=${2:-adopted}
+src=${3:-}
+mkdir -p "$dir"
+cd "$dir"
+[ "$mode" = empty ] && exit 0
+
+g() { git -c user.name="Fixture Author" -c user.email="fixture@example.com" -c core.hooksPath=/dev/null -c init.defaultBranch=main "$@"; }
+
+mkdir -p tinyshop tests
+cat > tinyshop/__init__.py <<'EOF'
+"""tinyshop: a tiny shopping cart. All money is integer cents (see docs/DECISIONS.md D-002)."""
+EOF
+cat > tinyshop/money.py <<'EOF'
+def format_cents(cents: int) -> str:
+    """Format integer cents as dollars, e.g. 1234 -> "$12.34"."""
+    sign = "-" if cents < 0 else ""
+    cents = abs(cents)
+    return f"{sign}${cents // 100}.{cents % 100:02d}"
+EOF
+cat > tinyshop/cart.py <<'EOF'
+from dataclasses import dataclass, field
+
+TAX_RATE_PERCENT = 8
+
+
+@dataclass
+class Line:
+    name: str
+    unit_cents: int
+    qty: int = 1
+
+    @property
+    def cents(self) -> int:
+        return self.unit_cents * self.qty
+
+
+@dataclass
+class Cart:
+    lines: list[Line] = field(default_factory=list)
+
+    def add(self, name: str, unit_cents: int, qty: int = 1) -> None:
+        if unit_cents < 0 or qty < 1:
+            raise ValueError("price must be >= 0 and qty >= 1")
+        self.lines.append(Line(name, unit_cents, qty))
+
+    def subtotal_cents(self) -> int:
+        return sum(line.cents for line in self.lines)
+
+    def tax_cents(self) -> int:
+        # Rounded half up to the cent (D-004).
+        return (self.subtotal_cents() * TAX_RATE_PERCENT + 50) // 100
+
+    def total_cents(self) -> int:
+        return self.subtotal_cents() + self.tax_cents()
+EOF
+cat > tinyshop/payments.py <<'EOF'
+class PaymentError(Exception):
+    pass
+
+
+class Gateway:
+    """Talks to the real payment provider. Tests use FakeGateway (tests/fakes.py) for charges."""
+
+    def charge(self, amount_cents: int, card_token: str) -> str:
+        if amount_cents <= 0:
+            raise PaymentError("amount must be positive")
+        raise PaymentError("no network in this fixture")
+
+
+def checkout(cart, gateway, card_token: str) -> str:
+    """Charge the cart's total. Returns the provider's charge id."""
+    return gateway.charge(cart.total_cents(), card_token)
+EOF
+: > tests/__init__.py
+cat > tests/fakes.py <<'EOF'
+class FakeGateway:
+    def __init__(self):
+        self.charged = []
+
+    def charge(self, amount_cents, card_token):
+        self.charged.append(amount_cents)
+        return "ch_fake_1"
+EOF
+cat > tests/test_cart.py <<'EOF'
+import unittest
+
+from tinyshop.cart import Cart
+from tinyshop.money import format_cents
+from tinyshop.payments import checkout
+from tests.fakes import FakeGateway
+
+
+class CartTest(unittest.TestCase):
+    def test_total_in_cents_with_tax(self):
+        cart = Cart()
+        cart.add("pen", 199, 3)          # 597
+        self.assertEqual(cart.subtotal_cents(), 597)
+        self.assertEqual(cart.tax_cents(), 48)    # 47.76 -> 48
+        self.assertEqual(cart.total_cents(), 645)
+
+    def test_format(self):
+        self.assertEqual(format_cents(645), "$6.45")
+        self.assertEqual(format_cents(5), "$0.05")
+
+    def test_checkout_charges_the_total(self):
+        cart = Cart()
+        cart.add("book", 1000)
+        gw = FakeGateway()
+        checkout(cart, gw, "tok")
+        self.assertEqual(gw.charged, [1080])
+
+
+if __name__ == "__main__":
+    unittest.main()
+EOF
+cat > README.md <<'EOF'
+# tinyshop
+
+A tiny shopping cart library. Customers recieve a receipt with every order.
+
+Run the tests: `python -m unittest -q`
+EOF
+cat > .gitignore <<'EOF'
+__pycache__/
+.env
+EOF
+printf '* text=auto eol=lf\n' > .gitattributes
+
+if [ "$mode" = plain ]; then
+    cat > CLAUDE.md <<'EOF'
+# tinyshop
+
+House rule: keep every module under 200 lines, and never add third-party dependencies without asking.
+EOF
+    g init -q
+    g add -A
+    g commit -q -m "tinyshop: cart, money formatting, checkout"
+    exit 0
+fi
+
+# ---- adopted: full shipshape setup with real memory ----
+mkdir -p docs/plans .shipshape .githooks
+cat > docs/STATUS.md <<'EOF'
+# Project Status
+
+> Current truth only. History in CHANGELOG.md, reasons in DECISIONS.md.
+
+**Last updated:** 2026-10-18 · **Code at:** "Tax rounded half up" commit
+**In one line:** the cart, tax and checkout work; discount codes are next.
+
+## What works (verified)
+
+- Cart with integer-cent prices, subtotal, 8% tax rounded half up (D-002, D-004) - `tests/test_cart.py`
+- Money formatting `format_cents` - `tests/test_cart.py::test_format`
+- Checkout charges the cart total through a gateway - tested with `FakeGateway` only
+
+## In progress
+
+- Nothing.
+
+## Live state
+
+- Nothing is live. The real payment gateway is not connected (no network in `Gateway.charge`).
+
+## Known gaps
+
+1. `checkout` is only tested with `FakeGateway`; the real `Gateway.charge` path has no test.
+
+## Next
+
+1. **Percentage discount codes** on the cart (for example `SAVE10` = 10% off), following D-003: applied to the
+   subtotal before tax, discount rounded DOWN to the cent.
+2. Connect the real payment provider (needs the provider's sandbox keys from the owner).
+
+## How to run and check
+
+- Tests: `python -m unittest -q` (3 tests, all passing on 2026-10-18)
+EOF
+cat > docs/DECISIONS.md <<'EOF'
+# Decision Log
+
+> Each entry: what was decided, why, and where it lives. Never renumber or delete; supersede with a new entry.
+
+**D-001 Project memory and workflow set up with shipshape.** (2026-10-15)
+Docs in docs/ are the project's memory; code commits update STATUS and CHANGELOG; work happens on branches.
+*Why:* sessions start with no memory. *Where:* AGENTS.md, .shipshape/, .githooks/, docs/.
+
+**D-002 Money is stored and computed as integer cents, never floats.** (2026-10-15)
+Every price, subtotal, tax and total is an `int` number of cents; only `format_cents` turns it into text.
+*Why:* with floats, three items at $0.10 + $0.20 totalled $0.30000000000000004 and a receipt was off by a cent
+after rounding. Integers make every total exact. *Where:* `tinyshop/cart.py`, `tinyshop/money.py`.
+
+**D-003 Discount codes apply to the subtotal before tax, and the discount is rounded down to the cent.** (2026-10-17)
+A code is a percentage (1-100). discount_cents = subtotal_cents * percent // 100 (floor), tax is computed on
+(subtotal - discount). *Why:* the shop owner decided the customer must never be charged a fraction more than
+the advertised discount implies, and tax law here taxes the discounted price. *Where:* not built yet (STATUS Next 1).
+
+**D-004 Tax is 8%, rounded half up to the cent.** (2026-10-18)
+*Why:* matches the receipts of the shop's old till. *Where:* `Cart.tax_cents`.
+EOF
+cat > docs/ARCHITECTURE.md <<'EOF'
+# Architecture (as built)
+
+## Code map
+
+| Path | Responsibility |
+|---|---|
+| `tinyshop/cart.py` | `Cart` and `Line`: adding items, `subtotal_cents`, `tax_cents` (8%, half up), `total_cents` |
+| `tinyshop/money.py` | `format_cents`: the only place cents become text |
+| `tinyshop/payments.py` | `Gateway` (real provider, not connected), `checkout(cart, gateway, token)` charges `total_cents` |
+| `tests/test_cart.py` | unit tests; `tests/fakes.py` has `FakeGateway` |
+
+## How a checkout flows
+
+1. Caller builds a `Cart` and `add`s lines (unit price in cents, qty).
+2. `checkout` calls `gateway.charge(cart.total_cents(), token)`.
+3. `total_cents` = `subtotal_cents` + `tax_cents`.
+
+## Commands
+
+```
+python -m unittest -q
+```
+EOF
+cat > docs/CHANGELOG.md <<'EOF'
+# Changelog
+
+## 2026-10-18
+- Tax rounded half up to the cent (D-004); was truncated, receipts differed from the old till by 1 cent.
+
+## 2026-10-17
+- Decided how discount codes will work (D-003). Not built yet.
+
+## 2026-10-15
+- tinyshop created: cart, money formatting, checkout. Project memory set up with shipshape (D-001, D-002).
+EOF
+if [ -n "$src" ] && [ -d "$src/skills/shipshape-adopt/assets" ]; then
+    a="$src/skills/shipshape-adopt/assets"
+    cp "$a/agents-md-block.md" AGENTS.md
+    cp "$a/shipshape/context.sh" "$a/shipshape/context.ps1" "$a/shipshape/docs-gate.sh" .shipshape/
+    cp "$a/shipshape/gitignore" .shipshape/.gitignore
+    cp "$a/githooks/commit-msg" "$a/githooks/pre-commit" "$a/githooks/pre-push" .githooks/
+    cp "$a/docs/plans-README.md" docs/plans/README.md
+else
+    echo "Follow the shipshape workflow: read docs/STATUS.md, DECISIONS.md and ARCHITECTURE.md before any change." > AGENTS.md
+fi
+cat > CLAUDE.md <<'EOF'
+# tinyshop
+
+@AGENTS.md
+@docs/STATUS.md
+@docs/DECISIONS.md
+@docs/ARCHITECTURE.md
+EOF
+cat > .shipshape/config <<'EOF'
+code_paths=tinyshop/ tests/
+docs_required=docs/STATUS.md docs/CHANGELOG.md
+check_commands=python -m unittest -q
+default_branch=main
+live_commands=
+EOF
+g init -q
+g add -A
+g commit -q -m "tinyshop: cart, money formatting, checkout; shipshape memory"
+git config core.hooksPath .githooks 2>/dev/null || true
+exit 0

@@ -1,0 +1,6 @@
+# shipshape settings for shipshape itself.
+code_paths=skills/ scripts/ tools/ hooks/ agents/ compat/ tests/ evals/ .claude-plugin/
+docs_required=docs/STATUS.md docs/CHANGELOG.md
+check_commands=python -m unittest discover -s tests -q && claude plugin validate --strict . && python tools/sync_eval_fixtures.py --check
+default_branch=main
+live_commands=claude plugin tag|gh release create

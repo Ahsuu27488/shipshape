@@ -1,0 +1,41 @@
+{
+  "name": "shipshape",
+  "displayName": "shipshape",
+  "version": "0.1.0",
+  "description": "Makes your coding agent work like a professional engineering team, and teaches you why: project memory loaded every session, no coding on guesses, risk tiers, branches and PRs, real-path tests, safe live changes, and an unattended mode that leaves a reviewable PR.",
+  "author": {
+    "name": "Muhammad Ahsan",
+    "url": "https://github.com/Ahsuu27488"
+  },
+  "homepage": "https://github.com/Ahsuu27488/shipshape",
+  "repository": "https://github.com/Ahsuu27488/shipshape",
+  "license": "MIT",
+  "keywords": ["workflow", "engineering", "memory", "git", "code-review", "testing", "teaching", "unattended", "agents-md"],
+  "icon": "./assets/logo.png",
+  "documentationUrl": "https://github.com/Ahsuu27488/shipshape#readme",
+  "supportUrl": "https://github.com/Ahsuu27488/shipshape/issues",
+  "privacyPolicyUrl": "https://github.com/Ahsuu27488/shipshape/blob/main/PRIVACY.md",
+  "userConfig": {
+    "teaching": {
+      "type": "string",
+      "title": "Teaching level",
+      "description": "learning: explain each habit fully the first few times; working: a short why the first time; quiet: no teaching, same discipline.",
+      "options": ["learning", "working", "quiet"],
+      "default": "working"
+    },
+    "git_guard": {
+      "type": "string",
+      "title": "Commits on main/master",
+      "description": "What happens when Claude is about to commit or push on the default branch, and at session start when it finds itself there: ask you, block it, or do nothing.",
+      "options": ["ask", "block", "off"],
+      "default": "ask"
+    },
+    "auto_setup": {
+      "type": "string",
+      "title": "Set up project memory",
+      "description": "When a project has no memory docs yet: ask once (ask), set it up on a branch without asking (auto), or never (off).",
+      "options": ["ask", "auto", "off"],
+      "default": "ask"
+    }
+  }
+}

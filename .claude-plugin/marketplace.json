@@ -1,0 +1,15 @@
+{
+  "name": "shipshape",
+  "description": "Professional engineering habits for any coding agent, with the reasons taught along the way.",
+  "owner": {
+    "name": "Muhammad Ahsan",
+    "url": "https://github.com/Ahsuu27488"
+  },
+  "plugins": [
+    {
+      "name": "shipshape",
+      "source": "./",
+      "description": "Project memory every session, no coding on guesses, risk tiers, branches and PRs, real-path tests, safe live changes and an unattended mode - taught as it goes."
+    }
+  ]
+}

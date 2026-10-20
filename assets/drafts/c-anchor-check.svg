@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="title">
+  <title id="title">shipshape: anchor check</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#143049"/>
+      <stop offset="1" stop-color="#08131E"/>
+    </linearGradient>
+    <linearGradient id="arm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF8B66"/>
+      <stop offset="1" stop-color="#EE5A36"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="3" y="3" width="506" height="506" rx="109" fill="none" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="6"/>
+  <!-- ring, shank, stock -->
+  <circle cx="256" cy="122" r="30" fill="none" stroke="#F0DDBE" stroke-width="18"/>
+  <rect x="246" y="150" width="20" height="230" rx="10" fill="#F0DDBE"/>
+  <rect x="186" y="186" width="140" height="20" rx="10" fill="#F0DDBE"/>
+  <!-- arms shaped as a check mark -->
+  <path d="M140 300 L240 394 L380 236" fill="none" stroke="url(#arm)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

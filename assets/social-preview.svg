@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640" role="img" aria-labelledby="t">
+  <title id="t">shipshape - build like a pro team, learn why, any coding agent</title>
+  <defs>
+    <linearGradient id="sbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#143049"/>
+      <stop offset="1" stop-color="#08131E"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="640" fill="url(#sbg)"/>
+  <g transform="translate(110 154) scale(0.65)"><defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#143049"/>
+      <stop offset="1" stop-color="#08131E"/>
+    </linearGradient>
+    <linearGradient id="sail" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFF8EC"/>
+      <stop offset="1" stop-color="#F0DDBE"/>
+    </linearGradient>
+    <linearGradient id="hull" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FF8B66"/>
+      <stop offset="1" stop-color="#EE5A36"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="3" y="3" width="506" height="506" rx="109" fill="none" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="6"/>
+  <!-- sea -->
+  <path d="M104 432 C 140 414 172 450 208 432 S 276 414 312 432 S 380 450 408 432" fill="none" stroke="#5BC0EB" stroke-opacity="0.55" stroke-width="10" stroke-linecap="round"/>
+  <!-- mast -->
+  <rect x="249" y="112" width="12" height="236" rx="6" fill="#F0DDBE"/>
+  <!-- jib -->
+  <path d="M238 168 L238 322 L146 322 C 160 262 192 210 238 168 Z" fill="url(#sail)" opacity="0.78"/>
+  <!-- mainsail with the check -->
+  <path d="M272 120 C 334 172 374 244 388 322 L272 322 Z" fill="url(#sail)"/>
+  <path d="M292 262 L318 288 L362 222" fill="none" stroke="#143049" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- hull with commits on a branch -->
+  <path d="M116 340 H396 C 388 376 356 400 318 400 H194 C 156 400 124 376 116 340 Z" fill="url(#hull)"/>
+  <line x1="200" y1="370" x2="312" y2="370" stroke="#FFE3D8" stroke-width="6" stroke-linecap="round"/>
+  <g fill="#FFF8EC">
+    <circle cx="200" cy="370" r="11"/>
+    <circle cx="256" cy="370" r="11"/>
+    <circle cx="312" cy="370" r="11"/>
+  </g>
+</g>
+  <text x="520" y="292" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="96" font-weight="700" fill="#FFF8EC">shipshape</text>
+  <text x="524" y="360" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="34" fill="#F0DDBE">Build like a pro team. Learn why.</text>
+  <text x="524" y="408" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="34" fill="#FF8B66">Any coding agent.</text>
+</svg>

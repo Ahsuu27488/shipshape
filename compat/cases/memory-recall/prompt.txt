@@ -1,0 +1,1 @@
+I'm back after a few days away from this project. Before we change anything: where does it stand right now, what is the next planned piece of work, and why are prices kept as whole numbers instead of decimals? Don't modify any files.

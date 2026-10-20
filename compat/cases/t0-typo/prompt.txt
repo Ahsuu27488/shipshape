@@ -1,0 +1,1 @@
+Fix the spelling of "recieve" in README.md and commit it.

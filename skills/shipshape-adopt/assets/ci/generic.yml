@@ -1,0 +1,22 @@
+# CI for any project (written by shipshape-adopt): runs the check_commands from .shipshape/config.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      # Add the language setup your project needs here (setup-python, setup-node, setup-go, ...).
+      - name: Project checks
+        run: |
+          cmd=$(sed -n 's/^check_commands=//p' .shipshape/config | tail -n 1)
+          if [ -z "$cmd" ]; then echo "No check_commands in .shipshape/config"; exit 1; fi
+          echo "+ $cmd"
+          sh -c "$cmd"
+
+  # (docs-gate job appended here from docs-gate-job.yml)

@@ -1,0 +1,30 @@
+# CI for a Python project (written by shipshape-adopt). Keep only the steps whose tools the project uses.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f pyproject.toml ]; then pip install -e ".[dev]" 2>/dev/null || pip install -e .; fi
+      - name: Lint
+        run: ruff check .
+      - name: Types
+        run: mypy .
+      - name: Tests
+        run: python -m pytest -q
+
+  # (docs-gate job appended here from docs-gate-job.yml)
