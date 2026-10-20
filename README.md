@@ -101,9 +101,18 @@ the agent writes the plan and stops for you. On Windows, use `tools\shipshape-ru
 
 ## Compatibility
 
-Every release is tested on real agents, against a fixture project, by [`compat/`](compat/). The matrix with dates and versions is in
-[compat/RESULTS.md](compat/RESULTS.md). The tests cover the memory recall, respecting a recorded decision, T0 without
-ceremony, a feature on a branch with docs, adopting a repo, and stopping on risky unattended work.
+Every release is tested on real agents, against a fixture project, by [`compat/`](compat/). The tests cover memory recall,
+respecting a recorded decision, T0 without ceremony, a feature on a branch with docs, adopting a repo, and stopping
+on risky unattended work.
+
+| Agent | v0.1.0 |
+|---|---|
+| Claude Code (plugin) | ✅ 6/6 |
+| Google Antigravity CLI | ✅ 6/6 |
+| Gemini CLI | ✅ memory recall (other cases not run yet) |
+| OpenAI Codex, Cursor, GitHub Copilot | not tested yet |
+
+Details, versions and dates: [compat/RESULTS.md](compat/RESULTS.md).
 
 ## Works with
 

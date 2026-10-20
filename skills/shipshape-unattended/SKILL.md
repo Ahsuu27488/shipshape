@@ -27,8 +27,9 @@ normally ask.
    `../shipshape/references/plan.md`, including an **Assumptions** section for every choice you made instead of
    asking). Commit it first on the branch.
    - **T2 or anything live** (production, deploys, data migrations, deletes, auth, money, permissions,
-     infrastructure, real posts/messages/charges): **stop after the plan.** Report "⛔ needs a human" with the
-     plan and the exact questions. Do not write the code.
+     infrastructure, real posts/messages/charges), **or a task that contradicts a recorded decision**: **stop
+     after the plan.** The plan names the conflicting decision(s) and the options. Report "⛔ needs a human" with
+     the plan and the exact questions. Do not write the code.
 4. **Branch:** `auto/<yyyymmdd>-<slug>` from an up-to-date default branch. If your tool gives you an isolated
    worktree or sandbox, work there.
 5. **Build** in small commits (why-messages), with tests that run the real path
@@ -45,6 +46,10 @@ normally ask.
      failed, was skipped or stopped; ready for review only if every check passed. If you can't push or open a PR
      (no remote, no network), commit everything on the branch and write the report to
      `.shipshape/last-report.md`.
+
+**Every run ends with a written report, even one that changed nothing.** Nobody reads your chat output
+overnight: the report must be in `.shipshape/last-report.md` (and the PR body when there is a PR), and a stopped
+run also commits its plan on the branch so the human finds both in the morning.
 
 ## The report (the PR body)
 

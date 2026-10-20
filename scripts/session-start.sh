@@ -16,7 +16,7 @@ echo "# shipshape"
 echo ""
 echo "Teaching level: $teaching (a repo can override it in .shipshape/local.json). Commits on main/master: $guard. Memory setup: $setup."
 if [ "${SHIPSHAPE_UNATTENDED:-0}" = "1" ]; then
-    echo "UNATTENDED RUN: nobody can answer questions. Follow the shipshape-unattended skill: plan into the repo, own branch, never merge, nothing live, no secrets, stop and report when stuck."
+    echo "UNATTENDED RUN: nobody can answer questions. Follow the shipshape-unattended skill: plan into the repo, own branch, never merge, nothing live, no secrets, stop and report when stuck. Always finish by writing .shipshape/last-report.md, even if you changed nothing."
 fi
 echo ""
 
@@ -83,7 +83,7 @@ fi
 
 # The memory itself. If CLAUDE.md already imports the docs, Claude has them; otherwise put them in context here.
 if [ -f docs/STATUS.md ]; then
-    if [ -f CLAUDE.md ] && grep -q '@docs/STATUS.md' CLAUDE.md 2>/dev/null; then
+    if grep -qs '@\(\.\./\)\{0,1\}docs/STATUS.md' CLAUDE.md .claude/CLAUDE.md; then
         echo "Project memory: CLAUDE.md imports docs/STATUS.md, DECISIONS.md and ARCHITECTURE.md. If their content is not in your context, read them now, before anything else."
     else
         echo "## Project memory: docs/STATUS.md"

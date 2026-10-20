@@ -2,6 +2,19 @@
 
 > Newest first. Each entry: date, commit (or "uncommitted"), what changed, and for fixes the root cause.
 
+## 2026-10-20 · release gate (branch feat/v0.1-release-gate)
+
+- The release gate passed: all 6 compat cases on Claude Code and Antigravity CLI (`compat/RESULTS.md`).
+- Router: a request that contradicts a recorded decision stops before any edit until the user confirms, even after
+  "do it". Root cause: on its first run, Claude cited D-002 and then still switched the cart to floats.
+- Unattended: every run writes `.shipshape/last-report.md`, even one that changed nothing, and a decision conflict stops
+  after the plan. Root cause: Claude stopped correctly but reported only in chat output, which nobody reads overnight.
+- Compat runner: Antigravity is given `--model`. Each case runs from a snapshot of `run-case.sh`, so editing the script
+  can't break a batch in progress. Fixture repos get a git identity.
+- `tools/shipshape-run.sh`: added `SHIPSHAPE_AGENT_ARGS` for extra agent flags, and a hint when a headless agent was
+  denied permissions.
+- The logo is concept A ("checked sail"), chosen by Ahsan.
+
 ## 2026-10-20 · v0.1.0 (first build)
 
 - Six agent-neutral skills: `shipshape` (router), `shipshape-memory`, `shipshape-adopt` (existing and new projects),
