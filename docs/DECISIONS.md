@@ -1,8 +1,8 @@
 # Decision Log
 
 > Each entry: what was decided, **why**, and where it lives. Numbering is permanent: never renumber or delete;
-> supersede with a new entry and mark the old heading *(superseded by D-NNN)*. The full original plan, with the
-> research behind these choices, is `docs/PLAN.md`.
+> supersede with a new entry and mark the old heading *(superseded by D-NNN)*. The research behind these choices
+> is summarised in each entry.
 
 **D-001 One agent-neutral source, three layers.** (2026-10-20)
 Layer 1 is the skills in the open Agent Skills format (`skills/`), read natively by 40+ agents. Layer 2 is what
@@ -24,12 +24,12 @@ T2 risky (data, auth, money, deletes, live systems) = plan file + the human's go
 rollback. *Why:* the main complaint about workflow plugins is the same heavy process for every change.
 *Where:* `skills/shipshape/SKILL.md`.
 
-**D-004 Project memory is the strongest part, modelled on Relay.** (2026-10-20)
+**D-004 Project memory is the strongest part, modelled on the owner's earlier project.** (2026-10-20)
 STATUS (current truth), DECISIONS (numbered, superseded never deleted), ARCHITECTURE (map as built), CHANGELOG
 (history); built from the real code on first adoption; loaded at every session start (Claude: SessionStart hook +
 CLAUDE.md imports; others: AGENTS.md block + router step 0); a commit-msg hook and a CI job reject code changes
 without STATUS + CHANGELOG (`[no-docs]` bypass). *Why:* Ahsan's main pain is agents forgetting earlier sessions,
-misreading how code connects, and coding on guesses; his Relay setup solved it in one repo. *Where:*
+misreading how code connects, and coding on guesses; his setup in an earlier project solved it in one repo. *Where:*
 `skills/shipshape-memory/`, `skills/shipshape-adopt/assets/`, `scripts/session-start.sh`.
 
 **D-005 Memory setup: `ask` by default, `auto` available.** (2026-10-20)
@@ -58,6 +58,6 @@ agents' CLIs) against the fixture and grades the repo state. The `evals/` suite 
 `ANTHROPIC_API_KEY` secret) or a `claude setup-token` login. *Where:* `compat/`, `evals/`, `CLAUDE.md`.
 
 **D-009 Why-card stories are labelled real or example.** (2026-10-20)
-Cards marked **(real)** describe incidents from Relay (anonymised: the fake uploader D-055, the route-delete cascade
-D-063, the failed build D-092); the rest say "for example". *Why:* teaching with invented incidents presented as real
+Cards marked **(real)** describe incidents from the owner's earlier project (anonymised: a fake uploader hiding a
+crash, a delete that cascaded through history, a failed build taking a live site down); the rest say "for example". *Why:* teaching with invented incidents presented as real
 would be dishonest. *Where:* `skills/shipshape/references/why.md`.
