@@ -10,7 +10,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        # macOS is left out for now: on 2026-10-20 its jobs sat queued for 15 minutes and were cancelled twice without a
+        # runner ever starting. Ubuntu covers the same POSIX shell behaviour. Add macos-latest back once runners start.
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5

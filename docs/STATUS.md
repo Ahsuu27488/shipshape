@@ -7,7 +7,7 @@
 
 ## What works (verified)
 
-- 61 unit and integration tests pass on Windows, Ubuntu and macOS (CI) (`python -m unittest discover -s tests`). They run the real git
+- 61 unit and integration tests pass on Windows and Ubuntu (CI; macOS CI is off: its runner never started) (`python -m unittest discover -s tests`). They run the real git
   hooks, the session report, the Claude hooks, the unattended wrapper (with a stand-in agent), and the skill-spec and
   limits checks.
 - `claude plugin validate --strict` passes for the marketplace and the plugin.
@@ -31,7 +31,7 @@
 
 ## Next
 
-1. Set the GitHub social preview (`assets/social-preview.png`; Settings → Social preview, by hand or in Chrome).
+1. Done: GitHub social preview set.
 2. Submit to the Anthropic directory (claude.ai/directory/manage).
 3. Done: Ahsan's own install, the plugin at user scope with `auto_setup=auto`, `teaching=working`, `git_guard=ask`.
 4. Before the Anthropic directory submission: run the compat cases on Codex and Cursor, run `evals/` with a working
