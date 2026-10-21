@@ -2,6 +2,10 @@
 
 > Newest first. Each entry: date, commit (or "uncommitted"), what changed, and for fixes the root cause.
 
+## 2026-10-21 · directory submission
+
+- Submitted v0.1.0 to the Anthropic directory. The portal's Validate passed with 8 warnings and 5 policy holds (reviewer).
+
 ## 2026-10-20 · executable hooks (fix)
 
 - Hook and script files are now committed as executable (100755), and adopt makes them executable on disk and in

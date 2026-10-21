@@ -19,7 +19,10 @@
 
 ## In progress
 
-- Nothing.
+- **Anthropic directory:** v0.1.0 (`f5c3b08`) submitted 2026-10-21. It is in the security scan, then goes to a reviewer
+  because of 5 policy holds: local hooks/scripts, image files, a credential mention, and a name similar to
+  `fisky2340/shipshape`. Updates come from the scheduled check every 6 hours (no webhook). Auto-publish is on for later versions.
+  Portal: claude.ai/directory/manage/plugins/a83f9202-d1ad-4e79-a624-1101ea09d01f
 
 ## Known gaps
 
@@ -32,10 +35,9 @@
 ## Next
 
 1. Done: GitHub social preview set.
-2. Submit to the Anthropic directory (claude.ai/directory/manage).
+2. Done: submitted to the Anthropic directory (see In progress). When approved, press Publish there.
 3. Done: Ahsan's own install, the plugin at user scope with `auto_setup=auto`, `teaching=working`, `git_guard=ask`.
-4. Before the Anthropic directory submission: run the compat cases on Codex and Cursor, run `evals/` with a working
-   login, and validate in the directory portal.
+4. Run the compat cases on Codex and Cursor, and `evals/` with a working login (Ahsan chose to submit first).
 5. One real overnight `shipshape-run` on a small repo.
 
 ## How to run and check
