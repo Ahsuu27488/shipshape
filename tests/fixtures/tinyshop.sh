@@ -253,6 +253,7 @@ if [ -n "$src" ] && [ -d "$src/skills/shipshape-adopt/assets" ]; then
     cp "$a/shipshape/gitignore" .shipshape/.gitignore
     cp "$a/githooks/commit-msg" "$a/githooks/pre-commit" "$a/githooks/pre-push" .githooks/
     cp "$a/docs/plans-README.md" docs/plans/README.md
+    chmod +x .githooks/* .shipshape/*.sh
 else
     echo "Follow the shipshape workflow: read docs/STATUS.md, DECISIONS.md and ARCHITECTURE.md before any change." > AGENTS.md
 fi

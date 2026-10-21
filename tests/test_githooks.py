@@ -93,7 +93,9 @@ class FirstCommit(RepoTestCase):
         self.git("init", "-q", "-b", "main", check=True)
         (new / ".githooks").mkdir()
         for hook in ("pre-commit", "commit-msg", "pre-push"):
-            (new / ".githooks" / hook).write_bytes((ASSETS / "githooks" / hook).read_bytes())
+            target = new / ".githooks" / hook
+            target.write_bytes((ASSETS / "githooks" / hook).read_bytes())
+            target.chmod(0o755)  # git skips non-executable hooks on Linux/macOS
         self.git("config", "core.hooksPath", ".githooks", check=True)
         self.write("README.md", "# new\n")
         self.git("add", "-A", check=True)

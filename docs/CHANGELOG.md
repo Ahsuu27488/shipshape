@@ -2,6 +2,17 @@
 
 > Newest first. Each entry: date, commit (or "uncommitted"), what changed, and for fixes the root cause.
 
+## 2026-10-20 · executable hooks (fix)
+
+- Hook and script files are now committed as executable (100755), and adopt makes them executable on disk and in
+  git. Root cause: on Windows, git doesn't record the executable bit, so the files were stored as 100644, and git on
+  Linux and macOS silently skips a hook that isn't executable. Found by the first GitHub CI run (ubuntu and macOS
+  failed, Windows passed). A new test checks the mode of every hook and script in the git index.
+- CI: macOS was removed from the test matrix. Its jobs were cancelled twice after 15 minutes in the queue without
+  a runner ever starting. Ubuntu covers the same POSIX behaviour.
+- Published to the public repository github.com/Ahsuu27488/shipshape. The internal plan and private project
+  details were kept out of it.
+
 ## 2026-10-20 · release gate (branch feat/v0.1-release-gate)
 
 - The release gate passed: all 6 compat cases on Claude Code and Antigravity CLI (`compat/RESULTS.md`).
