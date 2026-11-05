@@ -58,8 +58,10 @@ even if the request says "just do it": the human may not know or remember the de
 it), and ask them to confirm. Only after they confirm, knowing the reason, do you proceed, and the change gets a
 new decision entry that marks the old one superseded. Unattended: never reverse a decision; report it instead.
 
-**No guessing.** If the request is ambiguous and a human is present, ask one precise question. If nobody can
-answer (unattended mode), pick the most conservative reading, write the assumption down in the plan, and carry on.
+**No guessing.** If the request is ambiguous and a human is present, ask one precise question. If what to build
+is unclear (a new app, a fuzzy feature, "I have an idea"), follow `references/discover.md` and build nothing until
+the human approves the description. If nobody can answer (unattended mode), pick the most conservative reading,
+write the assumption down in the plan, and carry on; if only the human can decide what to build, stop and report.
 
 ## Step 2. Pick the tier (always)
 
@@ -92,6 +94,8 @@ and **stop until the human approves** (unattended: stop and report, see `shipsha
 - Small commits, each one leaving the code working. Commit messages say **why**, not only what.
 - Follow `references/real-tests.md`: at least one test calls the **real** function, not only a fake of it.
   A bug fix starts with a test that fails because of the bug.
+- **A bug, a failing test or anything unexpected:** no fix until you know the cause. Find it with
+  `references/debug.md`; after 3 failed fixes, stop and question the design with the human.
 - Run the project's own checks (tests, types, lint, build). Their commands are in `.shipshape/config`
   (`check_commands=`) or the docs. **Show evidence**: the command and the key lines of its output. Never write
   "tests pass" without having run them in this session.
@@ -101,7 +105,8 @@ and **stop until the human approves** (unattended: stop and report, see `shipsha
 Read your own full diff (`git diff <base>...HEAD`) as a reviewer would, using `references/review.md`. For T2,
 and for T1 changes over ~200 lines, get a fresh-eyes review: a separate reviewer agent or session if your tool
 has one (in Claude Code: the `shipshape-reviewer` agent), otherwise a second, deliberate pass with the checklist.
-Fix correctness gaps; ignore style nits.
+Fix correctness gaps; ignore style nits. Check each reviewer finding against the code before acting on it, with
+`references/review-feedback.md`.
 
 ## Step 7. Update the project's memory (always, before the commit that finishes the change)
 
@@ -113,7 +118,8 @@ repo's commit hook and CI reject code changes without them. Docs describe what i
 
 Follow `references/land.md`: push the branch, open a pull request with What / Why / How verified / Risk and
 rollback, wait for CI, and only merge when CI is green and the human agrees (solo projects: the human may
-self-merge). **You never merge on your own in unattended mode.**
+self-merge). Review comments on the PR: `references/review-feedback.md`; a red CI run: `references/debug.md`.
+**You never merge on your own in unattended mode.**
 
 ## Step 9. Walk the human through it (T1, T2)
 
@@ -146,6 +152,10 @@ middle of an incident or a live change**: hold the cards until the end.
 - **Live / running system, deploys, production data:** `references/live-safety.md` (always T2).
 - **The human is away, or nobody can answer:** the `shipshape-unattended` skill.
 - **Several independent tasks at once:** `references/parallel.md`.
-- **Something broke after release:** `references/retro.md`.
+- **Something broke after release:** `references/retro.md` (stabilise first; find the cause with
+  `references/debug.md`).
+- **The superpowers skills are installed:** their `brainstorming`, `systematic-debugging` and
+  `receiving-code-review` skills may be used instead of `references/discover.md`, `references/debug.md` and
+  `references/review-feedback.md`. Everything else here still applies; designs and plans still go in `docs/plans/`.
 - **The project has its own rules or skills** (its own checkpoint skill, CLAUDE.md rules, a different
   branching model): **the project's rules win.** shipshape fills gaps; it never overrides a project decision.

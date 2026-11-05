@@ -2,14 +2,14 @@
 
 > Current truth only. History in CHANGELOG.md, reasons in DECISIONS.md.
 
-**Last updated:** 2026-10-20 · **Code at:** github.com/Ahsuu27488/shipshape `main` (public)
+**Last updated:** 2026-11-05 · **Code at:** github.com/Ahsuu27488/shipshape `main` (public)
 **In one line:** v0.1 is built and has passed its release gate: Claude Code and Antigravity pass all 6 compat cases.
 
 ## What works (verified)
 
-- 61 unit and integration tests pass on Windows and Ubuntu (CI; macOS CI is off: its runner never started) (`python -m unittest discover -s tests`). They run the real git
+- 62 unit and integration tests pass on Windows and Ubuntu (CI; macOS CI is off: its runner never started) (`python -m unittest discover -s tests`). They run the real git
   hooks, the session report, the Claude hooks, the unattended wrapper (with a stand-in agent), and the skill-spec and
-  limits checks.
+  limits checks, including that every reference is linked from its SKILL.md.
 - `claude plugin validate --strict` passes for the marketplace and the plugin.
 - In a real headless Claude Code session on Windows, the SessionStart and PreToolUse hooks fire: the memory loads, and
   the guard stops a commit on main.
@@ -23,6 +23,8 @@
   because of 5 policy holds: local hooks/scripts, image files, a credential mention, and a name similar to
   `fisky2340/shipshape`. Updates come from the scheduled check every 6 hours (no webhook). Auto-publish is on for later versions.
   Portal: claude.ai/directory/manage/plugins/a83f9202-d1ad-4e79-a624-1101ea09d01f
+- **Unreleased (the version is still 0.1.0):** the router's new references for debugging, unclear requests and
+  review feedback (D-010), from branch `feat/debug-discover-review-feedback`. The 0.1.0 under review doesn't have them.
 
 ## Known gaps
 
@@ -31,6 +33,8 @@
 2. Codex, Cursor and Copilot are not tested yet (not installed here). Gemini CLI has passed memory-recall only.
 3. `context.ps1` is untested (the tests run the `sh` version).
 4. `tools/shipshape-run.sh` has been tested only with a stand-in agent, not with a real overnight run.
+5. The D-010 references (`debug`, `discover`, `review-feedback`) are checked by tests and review only. No live agent
+   has used them yet, and no compat case covers them.
 
 ## Next
 
@@ -39,6 +43,8 @@
 3. Done: Ahsan's own install, the plugin at user scope with `auto_setup=auto`, `teaching=working`, `git_guard=ask`.
 4. Run the compat cases on Codex and Cursor, and `evals/` with a working login (Ahsan chose to submit first).
 5. One real overnight `shipshape-run` on a small repo.
+6. Try the D-010 references on a live agent (for example a compat case with a failing test), then release them with
+   the next version bump.
 
 ## How to run and check
 
