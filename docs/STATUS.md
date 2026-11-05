@@ -24,7 +24,7 @@
   `fisky2340/shipshape`. Updates come from the scheduled check every 6 hours (no webhook). Auto-publish is on for later versions.
   Portal: claude.ai/directory/manage/plugins/a83f9202-d1ad-4e79-a624-1101ea09d01f
 - **Unreleased (the version is still 0.1.0):** the router's new references for debugging, unclear requests and
-  review feedback (D-010), from branch `feat/debug-discover-review-feedback`. The 0.1.0 under review doesn't have them.
+  review feedback (D-010). The 0.1.0 under directory review doesn't have them.
 
 ## Known gaps
 

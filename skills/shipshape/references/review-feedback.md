@@ -23,7 +23,8 @@ wrong fixes get in.
    - **"Do it properly"** (a bigger version of something): first check that anything uses it. If nothing does,
      suggest removing it instead.
 5. **Weigh the source.** From the project's owner: once you understand the request, act on it; if you're unsure
-   how far it reaches, ask. From a reviewer agent, a bot or an outside reviewer: check harder; they see the diff,
+   how far it reaches, ask; if it turns the change into T2 or live work, it goes back through Step 2 (the tier)
+   and `live-safety.md`. From a reviewer agent, a bot or an outside reviewer: check harder; they see the diff,
    not the whole project. Of a reviewer agent's findings, fix the ones that hold up and list the rest for the
    human (`review.md`).
 6. **Fix one at a time,** most serious first: what breaks or is unsafe, then the simple ones, then the larger
@@ -36,10 +37,14 @@ wrong fixes get in.
 
    That is the whole reply: the fix shows you listened, and agreeing before you've checked commits you to a
    change you haven't verified. Answer an inline comment in its own thread (GitHub:
-   `gh api repos/<owner>/<repo>/pulls/<pr>/comments/<id>/replies -f body="..."`), not with a new comment at the
+   `gh api repos/<owner>/<repo>/pulls/<pr>/comments/<id>/replies -f body="..."`, where `<id>` is the thread's
+   first comment), not with a new comment at the
    bottom of the pull request. If your pushback turns out wrong, say so in one line and fix it.
 8. **Finish the round.** Push, let CI run again, update the PR description if the scope changed and the memory
    docs if behaviour changed, then ask for another look.
 
-**Unattended:** never merge. A comment that asks for something risky or live, or that goes against a recorded
-decision, is not done; it goes in the report as a question for the human.
+**Unattended:** never merge, and post no replies: write them in the report for the human to send. A comment that
+asks for something risky or live, or that goes against a recorded decision, is not done; it goes in the report as a
+question for the human.
+
+Adapted from the `receiving-code-review` skill of superpowers (github.com/obra/superpowers, MIT, © Jesse Vincent).

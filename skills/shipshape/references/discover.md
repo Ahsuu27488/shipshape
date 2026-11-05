@@ -10,8 +10,9 @@ they answer.
 ## The conversation
 
 1. **Open with one question.** Your first message has two parts: one line saying they can skip the questions
-   and let you choose (if they do, name your main choices in one line each and carry on with the normal
-   steps), and one open question that invites a concrete story: "What happened the last time you needed this?"
+   and let you choose (if they do, name your main choices in one line each; that list, or for a project the
+   design file, is what they approve), and one open question that invites a concrete story: "What happened
+   the last time you needed this?"
 2. **One question per message,** in their words, without a list of sample answers. Open questions first; offer
    two or three options only when they are stuck; when they say "you choose", make a concrete proposal.
    Sometimes a guess works better than a question: say what you think the reason is, and let them correct you.
@@ -55,3 +56,5 @@ asked for. Label it throwaway; turning it into the real thing needs its own appr
 **Unattended:** nobody can answer. If one reading is clearly the most conservative, take it and write every
 assumption in the plan. If what to build is a choice only the human can make, write your questions in the plan,
 then stop and report (`shipshape-unattended`).
+
+Adapted from the `brainstorming` skill of superpowers (github.com/obra/superpowers, MIT, © Jesse Vincent).

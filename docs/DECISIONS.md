@@ -65,10 +65,11 @@ would be dishonest. *Where:* `skills/shipshape/references/why.md`.
 **D-010 Debugging, unclear requests and review feedback are router references; superpowers may stand in.** (2026-11-05)
 Three references cover what the router had no guidance for: `debug.md` (root cause before any fix), `discover.md`
 (draw out what to build and why; build nothing before approval) and `review-feedback.md` (check each comment against
-the code before acting; reply with facts). `SKILL.md` links them at Steps 1, 5, 6 and 8. When the superpowers skills
+the code before acting; reply with facts). `SKILL.md` links them at Steps 0-1, 5, 6 and 8. When the superpowers skills
 are installed, their `systematic-debugging`, `brainstorming` and `receiving-code-review` may be used instead; the
 other steps still apply, and designs and plans stay in `docs/plans/`.
 *Why:* comparing shipshape 0.1.0 with superpowers 7.0.0 on 2026-11-05 found these three gaps, and users without
-superpowers had no guidance for them. They are references, not new skills (D-002), each under 60 lines and written
-in shipshape's own words (superpowers is MIT). *Where:* `skills/shipshape/references/`, `skills/shipshape/SKILL.md`;
-`tests/test_skills.py` checks that every reference is linked from its SKILL.md.
+superpowers had no guidance for them. They are references, not new skills (D-002), each under 60 lines, adapted in
+shipshape's words from superpowers' skills (MIT) and crediting them on their last line. *Where:*
+`skills/shipshape/references/`, `skills/shipshape/SKILL.md`; `tests/test_skills.py` checks that every reference is
+linked from its SKILL.md.

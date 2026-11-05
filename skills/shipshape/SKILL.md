@@ -32,6 +32,8 @@ about the project or change any code.
    (`../shipshape-adopt/SKILL.md`) before writing code: for a project with code it builds the docs from the real
    code; for an empty folder it runs the new-project flow. Whether you ask first depends on the setup mode
    (`ask`, the default: offer it in one line and wait; `auto`: do it on a branch and say so; `off`: skip).
+   An empty folder and an unclear idea: `references/discover.md` comes first, so the stack and the skeleton
+   follow the approved description.
 4. **Report says the docs are stale** (code commits newer than STATUS.md, or uncommitted code with no STATUS
    change)? Bring them up to date first with the `shipshape-memory` skill. Never stack new work on a memory
    that is already wrong.
@@ -62,6 +64,7 @@ new decision entry that marks the old one superseded. Unattended: never reverse 
 is unclear (a new app, a fuzzy feature, "I have an idea"), follow `references/discover.md` and build nothing until
 the human approves the description. If nobody can answer (unattended mode), pick the most conservative reading,
 write the assumption down in the plan, and carry on; if only the human can decide what to build, stop and report.
+A bug to fix: start on its cause here, with `references/debug.md`, so the plan names the cause and its check.
 
 ## Step 2. Pick the tier (always)
 

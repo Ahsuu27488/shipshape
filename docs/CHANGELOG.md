@@ -4,12 +4,13 @@
 
 ## 2026-11-05 · debugging, unclear requests and review feedback (branch feat/debug-discover-review-feedback)
 
-- Router: three new references, in shipshape's own words, after a comparison with the superpowers plugin 7.0.0
-  (MIT). `debug.md`: find the root cause before any fix (make it happen on purpose, one hypothesis at a time, stop
-  and question the design after 3 failed fixes). `discover.md`: when it's unclear what to build, draw out what and
+- Router: three new references, adapted in shipshape's words from the superpowers plugin 7.0.0 (MIT; each file
+  credits its source). `debug.md`: find the root cause before any fix (make it happen on purpose, one hypothesis
+  at a time, stop and question the design after 3 failed fixes). `discover.md`: when it's unclear what to build, draw out what and
   why, play it back, size it, and build nothing until the human approves. `review-feedback.md`: check each review
   comment against the code, push back with reasons, reply with facts, and fix one item at a time with a test.
-- `SKILL.md` links them at Step 1 (unclear requests), Step 5 (bugs and failing tests), Steps 6 and 8 (reviewer
+- `SKILL.md` links them at Step 0 (an unclear idea in an empty folder comes before the new-project setup), Step 1
+  (unclear requests; a bug's cause before the plan), Step 5 (bugs and failing tests), Steps 6 and 8 (reviewer
   findings, PR comments, a red CI run) and "Something broke after release". It also says the superpowers skills
   `brainstorming`, `systematic-debugging` and `receiving-code-review` may be used instead when installed (D-010).
 - Test: every file in a skill's `references/` must be linked from its SKILL.md.
