@@ -66,6 +66,14 @@ class SkillSpec(unittest.TestCase):
                 with self.subTest(skill=skill_md.parent.name, ref=ref):
                     self.assertTrue((skill_md.parent / ref).exists(), f"{ref} not found")
 
+    def test_every_reference_is_linked_from_its_skill(self):
+        # An agent only opens a reference its SKILL.md names, so an unlinked one is never read.
+        for ref_dir in SKILLS.glob("*/references"):
+            skill_text = (ref_dir.parent / "SKILL.md").read_text(encoding="utf-8")
+            for ref in sorted(ref_dir.glob("*.md")):
+                with self.subTest(skill=ref_dir.parent.name, ref=ref.name):
+                    self.assertTrue(f"`references/{ref.name}`" in skill_text, f"{ref.name} is not linked")
+
     def test_assets_the_adopt_skill_names_exist(self):
         adopt = (SKILLS / "shipshape-adopt" / "SKILL.md").read_text(encoding="utf-8")
         for ref in re.findall(r"`assets/([A-Za-z0-9_./-]+)`", adopt):

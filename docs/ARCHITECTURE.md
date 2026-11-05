@@ -24,7 +24,7 @@ tests/ evals/ compat/        unit/integration tests, Claude evals, cross-agent r
 | Path | Responsibility |
 |---|---|
 | `skills/shipshape/SKILL.md` | The workflow every agent follows for code changes (steps 0-9, teaching, special situations) |
-| `skills/shipshape/references/` | `plan`, `real-tests`, `review`, `land`, `walkthrough`, `live-safety`, `parallel`, `retro`, `why` (cards) |
+| `skills/shipshape/references/` | `plan`, `real-tests`, `review`, `land`, `walkthrough`, `live-safety`, `parallel`, `retro`, `debug`, `discover`, `review-feedback` (D-010), `why` (cards) |
 | `skills/shipshape-adopt/assets/shipshape/context.sh` / `.ps1` | Session report: branch, commits, uncommitted, memory missing/stale, on-default-branch, unpushed, hooks inactive, unread unattended report; sources `context.local.sh` |
 | `.../shipshape/docs-gate.sh` | Reads changed paths on stdin + `code_paths`/`docs_required` from `.shipshape/config`; exit 1 if code changed without the docs. Used by `commit-msg` and CI |
 | `.../githooks/pre-commit` | Refuses commits on the default branch (not the first commit; `SHIPSHAPE_ALLOW_MAIN=1`), secret files and credential-looking lines (`shipshape:allow-secret` marker) |
